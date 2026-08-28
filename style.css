@@ -154,3 +154,30 @@ header p {
     font-size: 28px;
   }
 }
+.note-card {
+  padding: 20px;
+
+  background: #f8fafc;
+
+  border: 1px solid #e2e8f0;
+
+  border-radius: 16px;
+
+  min-height: 150px;
+}
+
+.note-card h3 {
+  font-size: 18px;
+
+  margin-bottom: 10px;
+}
+
+.note-card p {
+  color: #64748b;
+
+  line-height: 1.6;
+
+  white-space: pre-wrap;
+
+  word-break: break-word;
+}
