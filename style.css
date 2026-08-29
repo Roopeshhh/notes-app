@@ -181,3 +181,55 @@ header p {
 
   word-break: break-word;
 }
+#searchInput {
+  width: 220px;
+
+  padding: 10px 12px;
+
+  border: 1px solid #cbd5e1;
+
+  border-radius: 10px;
+
+  outline: none;
+}
+
+#searchInput:focus {
+  border-color: #6366f1;
+}
+
+.note-card {
+  position: relative;
+}
+
+.delete-btn {
+  margin-top: 15px;
+
+  padding: 8px 12px;
+
+  border: none;
+
+  border-radius: 8px;
+
+  background: #fee2e2;
+
+  color: #dc2626;
+
+  font-size: 13px;
+
+  cursor: pointer;
+}
+
+.delete-btn:hover {
+  background: #fecaca;
+}
+
+@media (max-width: 600px) {
+  .notes-header {
+    flex-wrap: wrap;
+  }
+
+  #searchInput {
+    width: 100%;
+    order: 3;
+  }
+}

@@ -7,6 +7,7 @@ const notesContainer = document.getElementById("notesContainer");
 const noteCount = document.getElementById("noteCount");
 
 let notes = [];
+let searchText = "";
 
 addNoteBtn.addEventListener("click", () => {
   const title = noteTitle.value.trim();
@@ -34,10 +35,17 @@ addNoteBtn.addEventListener("click", () => {
 function displayNotes() {
   notesContainer.innerHTML = "";
 
-  if (notes.length === 0) {
+  const filteredNotes = notes.filter((note) => {
+    return (
+      note.title.toLowerCase().includes(searchText) ||
+      note.content.toLowerCase().includes(searchText)
+    );
+  });
+
+  if (filteredNotes.length === 0) {
     notesContainer.innerHTML = `
             <div class="empty-message">
-                No notes yet. Create your first note!
+                No notes found.
             </div>
         `;
 
@@ -46,7 +54,7 @@ function displayNotes() {
     return;
   }
 
-  notes.forEach((note) => {
+  filteredNotes.forEach((note) => {
     const noteElement = document.createElement("article");
 
     noteElement.className = "note-card";
@@ -55,10 +63,34 @@ function displayNotes() {
             <h3>${note.title}</h3>
 
             <p>${note.content}</p>
+
+            <button
+                class="delete-btn"
+                onclick="deleteNote(${note.id})"
+            >
+                Delete
+            </button>
         `;
 
     notesContainer.appendChild(noteElement);
   });
 
-  noteCount.textContent = `${notes.length} ${notes.length === 1 ? "note" : "notes"}`;
+  noteCount.textContent = `${filteredNotes.length} ${
+    filteredNotes.length === 1 ? "note" : "notes"
+  }`;
+}
+
+function deleteNote(id) {
+  notes = notes.filter((note) => note.id !== id);
+
+  displayNotes();
+}
+
+function searchNotes() {
+  searchText = document
+    .getElementById("searchInput")
+    .value.toLowerCase()
+    .trim();
+
+  displayNotes();
 }
