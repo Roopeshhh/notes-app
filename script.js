@@ -6,8 +6,11 @@ const noteContent = document.getElementById("noteContent");
 const notesContainer = document.getElementById("notesContainer");
 const noteCount = document.getElementById("noteCount");
 
-let notes = [];
+let notes = JSON.parse(localStorage.getItem("notes")) || [];
+
 let searchText = "";
+
+displayNotes();
 
 addNoteBtn.addEventListener("click", () => {
   const title = noteTitle.value.trim();
@@ -26,6 +29,7 @@ addNoteBtn.addEventListener("click", () => {
 
   notes.push(note);
 
+  saveNotes();
   displayNotes();
 
   noteTitle.value = "";
@@ -81,8 +85,11 @@ function displayNotes() {
 }
 
 function deleteNote(id) {
-  notes = notes.filter((note) => note.id !== id);
+  notes = notes.filter((note) => {
+    return note.id !== id;
+  });
 
+  saveNotes();
   displayNotes();
 }
 
@@ -93,4 +100,8 @@ function searchNotes() {
     .trim();
 
   displayNotes();
+}
+
+function saveNotes() {
+  localStorage.setItem("notes", JSON.stringify(notes));
 }
