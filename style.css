@@ -233,3 +233,52 @@ header p {
     order: 3;
   }
 }
+.app {
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.app:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 25px 60px rgba(15, 23, 42, 0.12);
+}
+
+.note-card {
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.note-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
+}
+
+.note-form button,
+.delete-btn {
+  transition: 0.2s ease;
+}
+
+.note-form button:active,
+.delete-btn:active {
+  transform: scale(0.97);
+}
+
+.notes-header {
+  gap: 12px;
+}
+
+@media (max-width: 600px) {
+  .notes-header {
+    align-items: flex-start;
+  }
+
+  .notes-header h2 {
+    width: 100%;
+  }
+
+  #noteCount {
+    margin-top: 5px;
+  }
+}
