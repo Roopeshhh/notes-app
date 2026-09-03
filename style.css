@@ -133,6 +133,7 @@ header p {
 }
 
 .note-form button:focus-visible,
+.pin-btn:focus-visible,
 .edit-btn:focus-visible,
 .delete-btn:focus-visible,
 #searchInput:focus-visible {
@@ -208,6 +209,11 @@ header p {
   min-height: 150px;
 }
 
+.note-card--pinned {
+  border-color: #a5b4fc;
+  background: #f5f7ff;
+}
+
 .note-card h3 {
   font-size: 18px;
 
@@ -229,6 +235,17 @@ header p {
   margin-top: 14px;
   color: #94a3b8;
   font-size: 0.75rem;
+}
+
+.note-pin-status {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: #e0e7ff;
+  color: #4338ca;
+  font-size: 0.75rem;
+  font-weight: 700;
 }
 #searchInput {
   width: 220px;
@@ -290,6 +307,20 @@ header p {
   background: #c7d2fe;
 }
 
+.pin-btn {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 8px;
+  background: #fef3c7;
+  color: #92400e;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.pin-btn:hover {
+  background: #fde68a;
+}
+
 @media (max-width: 600px) {
   .notes-header {
     flex-wrap: wrap;
@@ -323,12 +354,14 @@ header p {
 }
 
 .note-form button,
+.pin-btn,
 .edit-btn,
 .delete-btn {
   transition: 0.2s ease;
 }
 
 .note-form button:active,
+.pin-btn:active,
 .edit-btn:active,
 .delete-btn:active {
   transform: scale(0.97);

@@ -72,7 +72,11 @@ function displayNotes() {
       );
     })
     .sort((firstNote, secondNote) => {
-      return getNoteTimestamp(secondNote) - getNoteTimestamp(firstNote);
+      return (
+        Number(Boolean(secondNote.isPinned)) -
+          Number(Boolean(firstNote.isPinned)) ||
+        getNoteTimestamp(secondNote) - getNoteTimestamp(firstNote)
+      );
     });
 
   if (filteredNotes.length === 0) {
@@ -93,6 +97,10 @@ function displayNotes() {
     const noteElement = document.createElement("article");
     noteElement.className = "note-card";
 
+    if (note.isPinned) {
+      noteElement.classList.add("note-card--pinned");
+    }
+
     const heading = document.createElement("h3");
     heading.textContent = note.title;
 
@@ -103,6 +111,17 @@ function displayNotes() {
 
     const actions = document.createElement("div");
     actions.className = "note-actions";
+
+    const pinButton = document.createElement("button");
+    pinButton.className = "pin-btn";
+    pinButton.type = "button";
+    pinButton.textContent = note.isPinned ? "Unpin" : "Pin";
+    pinButton.setAttribute(
+      "aria-label",
+      `${note.isPinned ? "Unpin" : "Pin"} note: ${note.title}`,
+    );
+    pinButton.setAttribute("aria-pressed", String(Boolean(note.isPinned)));
+    pinButton.addEventListener("click", () => togglePinnedNote(note.id));
 
     const editButton = document.createElement("button");
     editButton.className = "edit-btn";
@@ -117,11 +136,18 @@ function displayNotes() {
     deleteButton.setAttribute("aria-label", `Delete note: ${note.title}`);
     deleteButton.addEventListener("click", () => deleteNote(note.id));
 
-    actions.append(editButton, deleteButton);
+    actions.append(pinButton, editButton, deleteButton);
     noteElement.append(heading, content);
 
     if (noteDate) {
       noteElement.append(noteDate);
+    }
+
+    if (note.isPinned) {
+      const pinStatus = document.createElement("span");
+      pinStatus.className = "note-pin-status";
+      pinStatus.textContent = "Pinned";
+      noteElement.append(pinStatus);
     }
 
     noteElement.append(actions);
@@ -142,6 +168,15 @@ function deleteNote(id) {
   if (editingNoteId === id) {
     resetForm();
   }
+
+  saveNotes();
+  displayNotes();
+}
+
+function togglePinnedNote(id) {
+  notes = notes.map((note) =>
+    note.id === id ? { ...note, isPinned: !note.isPinned } : note,
+  );
 
   saveNotes();
   displayNotes();
