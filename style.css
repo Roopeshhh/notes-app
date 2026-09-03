@@ -223,6 +223,13 @@ header p {
 
   word-break: break-word;
 }
+
+.note-date {
+  display: block;
+  margin-top: 14px;
+  color: #94a3b8;
+  font-size: 0.75rem;
+}
 #searchInput {
   width: 220px;
 

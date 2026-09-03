@@ -30,14 +30,20 @@ noteForm.addEventListener("submit", (event) => {
 
   if (editingNoteId !== null) {
     notes = notes.map((note) =>
-      note.id === editingNoteId ? { ...note, title, content } : note,
+      note.id === editingNoteId
+        ? { ...note, title, content, updatedAt: new Date().toISOString() }
+        : note,
     );
     formStatus.textContent = "Note updated.";
   } else {
+    const now = new Date().toISOString();
+
     notes.push({
       id: createNoteId(),
       title,
       content,
+      createdAt: now,
+      updatedAt: now,
     });
     formStatus.textContent = "Note added.";
   }
@@ -58,12 +64,16 @@ cancelEditBtn.addEventListener("click", () => {
 function displayNotes() {
   notesContainer.innerHTML = "";
 
-  const filteredNotes = notes.filter((note) => {
-    return (
-      note.title.toLowerCase().includes(searchText) ||
-      note.content.toLowerCase().includes(searchText)
-    );
-  });
+  const filteredNotes = notes
+    .filter((note) => {
+      return (
+        note.title.toLowerCase().includes(searchText) ||
+        note.content.toLowerCase().includes(searchText)
+      );
+    })
+    .sort((firstNote, secondNote) => {
+      return getNoteTimestamp(secondNote) - getNoteTimestamp(firstNote);
+    });
 
   if (filteredNotes.length === 0) {
     const emptyMessage = document.createElement("div");
@@ -89,6 +99,8 @@ function displayNotes() {
     const content = document.createElement("p");
     content.textContent = note.content;
 
+    const noteDate = createNoteDate(note);
+
     const actions = document.createElement("div");
     actions.className = "note-actions";
 
@@ -106,7 +118,13 @@ function displayNotes() {
     deleteButton.addEventListener("click", () => deleteNote(note.id));
 
     actions.append(editButton, deleteButton);
-    noteElement.append(heading, content, actions);
+    noteElement.append(heading, content);
+
+    if (noteDate) {
+      noteElement.append(noteDate);
+    }
+
+    noteElement.append(actions);
 
     notesContainer.appendChild(noteElement);
   });
@@ -160,6 +178,31 @@ function createNoteId() {
   return crypto.randomUUID?.() ?? `${Date.now()}-${Math.random()}`;
 }
 
+function createNoteDate(note) {
+  const timestamp = getNoteTimestamp(note);
+
+  if (!timestamp) {
+    return null;
+  }
+
+  const date = new Date(timestamp);
+  const dateElement = document.createElement("time");
+  dateElement.className = "note-date";
+  dateElement.dateTime = date.toISOString();
+  dateElement.textContent = `Updated ${new Intl.DateTimeFormat(undefined, {
+    dateStyle: "medium",
+    timeStyle: "short",
+  }).format(date)}`;
+
+  return dateElement;
+}
+
+function getNoteTimestamp(note) {
+  const timestamp = Date.parse(note.updatedAt ?? note.createdAt ?? "");
+
+  return Number.isNaN(timestamp) ? 0 : timestamp;
+}
+
 function loadNotes() {
   try {
     const savedNotes = JSON.parse(localStorage.getItem(storageKey));
@@ -169,13 +212,18 @@ function loadNotes() {
     }
 
     return savedNotes.filter(
-      (note) =>
-        note &&
-        (typeof note.id === "number" || typeof note.id === "string") &&
-        typeof note.title === "string" &&
-        typeof note.content === "string",
+      isValidNote,
     );
   } catch {
     return [];
   }
+}
+
+function isValidNote(note) {
+  return (
+    note &&
+    (typeof note.id === "number" || typeof note.id === "string") &&
+    typeof note.title === "string" &&
+    typeof note.content === "string"
+  );
 }
