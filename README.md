@@ -1,32 +1,38 @@
 # 📝 Notes App
 
-A clean and responsive notes application built with HTML, CSS and JavaScript.
+A dependency-free, responsive notes application built with HTML, CSS, and
+JavaScript. Notes are stored locally in the browser, so they remain available
+after a refresh.
 
 ## Features
 
-- Create notes
-- Search notes
-- Delete notes
-- Notes count
-- Automatic local storage
-- Data remains after refreshing
-- Responsive design
-- Clean and modern interface
+- Create, edit, cancel edits, search, pin, and delete notes
+- Show a live count of the currently visible notes
+- Keep pinned notes above the normal newest-first list
+- Record and display the last update time for new and edited notes
+- Validate required fields and support keyboard-friendly form submission
+- Safely render note text, including text that contains HTML-like characters
+- Handle missing or malformed saved data without breaking the app
+- Work responsively on desktop and mobile screens
 
-## Technologies Used
+## Run locally
 
-- HTML5
-- CSS3
-- JavaScript
-- LocalStorage
+No install or build step is required. Open `index.html` in a modern browser.
 
-## Project Structure
+For a local development server, run:
+
+```powershell
+python -m http.server 4173 --bind 127.0.0.1
+```
+
+Then visit `http://127.0.0.1:4173`.
+
+## Project structure
 
 ```text
 notes-app/
-│
-├── index.html
-├── style.css
-├── script.js
-└── README.md
+├── index.html  # Structure and accessible controls
+├── style.css   # Responsive visual design
+├── script.js   # Note data, rendering, and local storage
+└── README.md   # Project documentation
 ```
