@@ -92,7 +92,13 @@ header p {
   resize: vertical;
 }
 
+.form-actions {
+  display: flex;
+  gap: 10px;
+}
+
 .note-form button {
+  flex: 1;
   padding: 14px;
 
   border: none;
@@ -111,7 +117,23 @@ header p {
   background: #4338ca;
 }
 
+#cancelEditBtn {
+  background: #e2e8f0;
+  color: #334155;
+}
+
+#cancelEditBtn:hover {
+  background: #cbd5e1;
+}
+
+.form-status {
+  min-height: 1.25rem;
+  color: #475569;
+  font-size: 0.875rem;
+}
+
 .note-form button:focus-visible,
+.edit-btn:focus-visible,
 .delete-btn:focus-visible,
 #searchInput:focus-visible {
   outline: 3px solid rgba(79, 70, 229, 0.35);
@@ -222,8 +244,6 @@ header p {
 }
 
 .delete-btn {
-  margin-top: 15px;
-
   padding: 8px 12px;
 
   border: none;
@@ -241,6 +261,26 @@ header p {
 
 .delete-btn:hover {
   background: #fecaca;
+}
+
+.note-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 15px;
+}
+
+.edit-btn {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 8px;
+  background: #e0e7ff;
+  color: #4338ca;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.edit-btn:hover {
+  background: #c7d2fe;
 }
 
 @media (max-width: 600px) {
@@ -276,11 +316,13 @@ header p {
 }
 
 .note-form button,
+.edit-btn,
 .delete-btn {
   transition: 0.2s ease;
 }
 
 .note-form button:active,
+.edit-btn:active,
 .delete-btn:active {
   transform: scale(0.97);
 }

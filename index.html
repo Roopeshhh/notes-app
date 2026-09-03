@@ -35,7 +35,11 @@
             maxlength="5000"
           ></textarea>
 
-          <button id="addNoteBtn" type="submit">Add Note</button>
+          <div class="form-actions">
+            <button id="addNoteBtn" type="submit">Add Note</button>
+            <button id="cancelEditBtn" type="button" hidden>Cancel edit</button>
+          </div>
+          <p id="formStatus" class="form-status" aria-live="polite"></p>
         </form>
 
         <section class="notes-section">
